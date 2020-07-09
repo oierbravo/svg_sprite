@@ -1,0 +1,7 @@
+svg_sprite.admin_config:
+  path: '/admin/config/content/svg-sprite'
+  defaults:
+    _form: '\Drupal\svg_sprite\Form\AdminConfigForm'
+    _title: 'Svg Sprite Config'
+  requirements:
+    _permission: 'administer site configuration'

@@ -1,0 +1,12 @@
+<?php
+function svg_sprite_browser_theme(){
+  return [
+    'svg_sprite_browser_grid' => [
+      'variables' => [ 'elements' => []]
+    ],
+    'svg_sprite_browser_grid_item' => [
+      'variables' => [ 'id' => NULL,'content' => NULL]
+    ]
+  ];
+}
+

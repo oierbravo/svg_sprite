@@ -1,0 +1,5 @@
+svg_sprite.admin_config:
+  title: 'Svg Sprite configuration'
+  parent: system.admin_config_content
+  description: 'Configure svg sprite location.'
+  route_name: svg_sprite.admin_config

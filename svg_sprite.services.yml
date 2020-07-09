@@ -1,0 +1,7 @@
+services:
+  svg_sprite.loader:
+    class: Drupal\svg_sprite\Services\Loader
+    arguments: ['@config.factory','@messenger']
+  svg_sprite.renderer:
+    class: Drupal\svg_sprite\Services\Renderer
+    arguments: ['@svg_sprite.loader']

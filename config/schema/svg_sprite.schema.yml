@@ -1,0 +1,7 @@
+svg_sprite.settings:
+  type: config_object
+  label: 'Svg sprite config'
+  mapping:
+    path:
+      type: path
+      label: 'Path'

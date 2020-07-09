@@ -1,0 +1,12 @@
+browser:
+  version: 1.x
+  js:
+    js/svg_sprite_browser.browser.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+browser_styles:
+  version: 1.x
+  css:
+    theme:
+      css/svg_sprite_browser.css: {}

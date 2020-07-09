@@ -1,0 +1,22 @@
+svg_sprite_browser.widget_form:
+  path: '/admin/svg_sprite_browser/search/{field_edit_id}/{selected_sprite}'
+  defaults:
+    _title: 'Sprite browser'
+    _controller: '\Drupal\svg_sprite_browser\Controller\SvgSpriteBrowser::openSearchForm'
+  requirements:
+    # The search form is widly open to everyone as it just an entry for search.
+    _access: 'TRUE'
+  options:
+    _admin_route: TRUE
+
+svg_sprite_browser.json:
+  path: '/admin/svg_sprite_browser/json'
+  defaults:
+    _title: 'Entity Reference Search'
+    _controller: '\Drupal\svg_sprite_browser\Controller\SvgSpriteBrowser::getJson'
+  requirements:
+    # The access token and permission to the entity tree will be checked in the treeJson()
+    # according to the entity type and bundles.
+    _access: 'TRUE'
+  options:
+    _admin_route: TRUE
