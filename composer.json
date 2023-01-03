@@ -2,7 +2,7 @@
     "name": "oierbravo/svg_sprite",
     "description": "Svg Sprite Widget",
     "require": {
-        "php": "^7.2"
+        "php": ">=7.2"
     },
     "type": "drupal-module"
 }
