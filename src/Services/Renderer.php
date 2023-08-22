@@ -20,12 +20,13 @@ class Renderer {
         }
         return $ids;
     }
-    public function getRenderArray($id,$customClass = '') {
+    public function getRenderArray($id,$customClass = '', $size = 96) {
       return [
         '#theme' => 'svg_sprite',
         '#id' => $id,
         '#svgSpritePath' => $this->svgSpriteLoader->getFilePath(),
-        '#customClass' => $customClass
+        '#customClass' => $customClass,
+        '#size' => $size
       ];
     }
 }

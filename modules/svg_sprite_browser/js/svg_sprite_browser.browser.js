@@ -2,9 +2,9 @@
 (function($, Drupal) {
   Drupal.behaviors.entityReferenceTree = {
     attach: function(context, settings) {
-      $(".js-svg-sprite-browser-wrapper", context)
-      .once("svgSpriteBrowserBehavior")
-      .each(function() {
+      var wrapperElement = once('svgSpriteBrowserBehavior', '.js-svg-sprite-browser-wrapper', context);
+      wrapperElement
+      .forEach(function() {
         const fieldEditName = $("#svg-sprite-browser-widget-field-id").val();
         const widgetElement = $("[data-drupal-selector='" + fieldEditName + "']");
         // Avoid ajax callback from running following codes again.

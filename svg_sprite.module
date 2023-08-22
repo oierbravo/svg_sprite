@@ -2,7 +2,7 @@
 function svg_sprite_theme(){
   return [
     'svg_sprite' => [
-      'variables' => [ 'id' => NULL, 'svgSpritePath' => NULL, 'customClass']
+      'variables' => [ 'id' => NULL, 'svgSpritePath' => NULL, 'customClass' => NULL, 'size' => 32]
     ]
   ];
 }

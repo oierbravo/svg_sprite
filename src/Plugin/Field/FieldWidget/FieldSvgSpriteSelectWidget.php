@@ -59,18 +59,15 @@ class FieldSvgSpriteSelectWidget extends WidgetBase {
     $default_value = (isset($item_value['sprite'])) ? $item_value['sprite'] : '';
 
     $svg_sprite_element = [];
-    $svg_sprite_element['sprite_preview'] = [
-      '#type' => '#markup',
-      '#attributes' => [
-        'id' => 'asdasd'
-      ]
-    ];
+
+    $svg_sprite_element['#attached']['library'][] = 'svg_sprite/icon_styles';
     $svg_sprite_element['sprite_preview'] = $this->svg_sprite_renderer->getRenderArray($default_value);
     $svg_sprite_element['sprite'] = [
       '#title' => 'Sprite',
       '#type' => 'select',
       '#options' => $options,
       '#default_value' => $default_value,
+      '#attributes' => ['class' => ['form--inline', 'clearfix']],
       '#ajax' => [
         'callback' => ['Drupal\svg_sprite\Ajax\RefreshPreview', 'render'], //alternative notation
         'disable-refocus' => TRUE, // Or TRUE to prevent re-focusing on the triggering element.
@@ -81,6 +78,9 @@ class FieldSvgSpriteSelectWidget extends WidgetBase {
         ],
       ]
     ];
+
+
+
     $element += $svg_sprite_element;
     return $element;
   }

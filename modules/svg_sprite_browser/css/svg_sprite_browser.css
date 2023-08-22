@@ -1,3 +1,13 @@
 .media-library-item__preview svg {
   width:100%;
 }
+.media-library-views-form {
+ display: flex;
+}
+.media-library-item {
+  width: 128px;
+  margin: 10px;
+}
+.media-library-item.checked .sprite-wrapper{
+  background-color: var(--gin-bg-input);
+}

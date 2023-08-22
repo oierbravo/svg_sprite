@@ -2,6 +2,5 @@ name: Svg Sprite
 type: module
 description: 'Svg sprite sheet handler.'
 package: Custom
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10
 configure: svg_sprite.admin_config

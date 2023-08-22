@@ -1,0 +1,5 @@
+icon_styles:
+  version: 1.x
+  css:
+    theme:
+      css/svg_sprite.css: {}
