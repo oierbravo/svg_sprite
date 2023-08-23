@@ -56,7 +56,7 @@ class FieldSvgSpriteSelectWidget extends WidgetBase {
       $options[$id] = $id;
     }
 
-    $default_value = (isset($item_value['sprite'])) ? $item_value['sprite'] : '';
+    $default_value = (isset($item_value['sprite'])) ? $item_value['sprite'] : array_pop($sprites_ids);
 
     $svg_sprite_element = [];
 

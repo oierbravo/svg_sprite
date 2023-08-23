@@ -7,7 +7,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 
 class Loader {
-    protected String $fileContent;
+    protected ?String $fileContent;
     protected String $filePath;
 
     protected ConfigFactoryInterface $configFactory;
@@ -17,6 +17,7 @@ class Loader {
       $this->configFactory = $configFactory;
       $this->messenger = $messenger;
       $this->filePath = $this->configFactory->get('svg_sprite.settings')->get('path');
+      $this->fileContent = null;
     }
 
     public function getFilePath() : Url {
@@ -24,7 +25,7 @@ class Loader {
       return Url::fromUserInput('/' . $this->filePath);
     }
 
-    public function getFileContent() : ?Array {
+    public function getFileContent() : ?String {
       if(!file_exists($this->filePath)){
         $this->messenger->addError(t('SVG Sprite file not found.'));
         return null;

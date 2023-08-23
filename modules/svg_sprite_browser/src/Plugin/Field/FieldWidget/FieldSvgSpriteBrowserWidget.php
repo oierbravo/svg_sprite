@@ -56,7 +56,7 @@ class FieldSvgSpriteBrowserWidget extends WidgetBase {
 
     $svg_sprite_element = [];
 
-    $default_value = (isset($item_value['sprite'])) ? $item_value['sprite'] : '';
+    $default_value = (isset($item_value['sprite'])) ? $item_value['sprite'] : 'none';
 
     $id_prefix = '';
     if (!empty($parents)) {
@@ -97,7 +97,7 @@ class FieldSvgSpriteBrowserWidget extends WidgetBase {
         'svg_sprite_browser.widget_form',
         [
           'field_edit_id' => $edit_id,
-          'selected_sprite' => (isset($item_value['sprite'])) ? $item_value['sprite'] : '',
+          'selected_sprite' => (isset($item_value['sprite'])) ? $item_value['sprite'] : $default_value,
         ]),
       '#attributes' => [
         'class' => [

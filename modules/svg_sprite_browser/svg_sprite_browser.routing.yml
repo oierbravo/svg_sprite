@@ -3,6 +3,7 @@ svg_sprite_browser.widget_form:
   defaults:
     _title: 'Sprite browser'
     _controller: '\Drupal\svg_sprite_browser\Controller\SvgSpriteBrowser::openSearchForm'
+    selected_sprite: 'none'
   requirements:
     # The search form is widly open to everyone as it just an entry for search.
     _access: 'TRUE'

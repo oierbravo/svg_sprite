@@ -10,7 +10,7 @@ class Renderer {
       $this->svgSpriteLoader = $svgSpriteLoader;
     }
 
-  public function getIds() : Array {
+  public function getIds() : array {
         $svgSpriteData = $this->svgSpriteLoader->getFileContent();
         if(is_null($svgSpriteData))
           return [];
@@ -21,7 +21,7 @@ class Renderer {
         }
         return $ids;
     }
-    public function getRenderArray($id,$customClass = '', $size = 96) : Array {
+    public function getRenderArray($id,$customClass = '', $size = 96) : array {
       return [
         '#theme' => 'svg_sprite',
         '#id' => $id,
