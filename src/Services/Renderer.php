@@ -10,9 +10,10 @@ class Renderer {
       $this->svgSpriteLoader = $svgSpriteLoader;
     }
 
-  public function getIds() {
+  public function getIds() : Array {
         $svgSpriteData = $this->svgSpriteLoader->getFileContent();
-
+        if(is_null($svgSpriteData))
+          return [];
         $serializedData = new \SimpleXMLElement($svgSpriteData);
         $ids = [];
         foreach($serializedData->symbol as $symbol){
@@ -20,7 +21,7 @@ class Renderer {
         }
         return $ids;
     }
-    public function getRenderArray($id,$customClass = '', $size = 96) {
+    public function getRenderArray($id,$customClass = '', $size = 96) : Array {
       return [
         '#theme' => 'svg_sprite',
         '#id' => $id,

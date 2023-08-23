@@ -7,11 +7,11 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 
 class Loader {
-    protected $fileContent;
-    protected $filePath;
+    protected String $fileContent;
+    protected String $filePath;
 
-    protected $configFactory;
-    protected $messenger;
+    protected ConfigFactoryInterface $configFactory;
+    protected MessengerInterface $messenger;
 
     public function __construct( ConfigFactoryInterface $configFactory, MessengerInterface $messenger ) {
       $this->configFactory = $configFactory;
@@ -19,21 +19,22 @@ class Loader {
       $this->filePath = $this->configFactory->get('svg_sprite.settings')->get('path');
     }
 
-    public function getFilePath(){
+    public function getFilePath() : Url {
 
       return Url::fromUserInput('/' . $this->filePath);
     }
 
-    public function getFileContent() {
+    public function getFileContent() : ?Array {
       if(!file_exists($this->filePath)){
         $this->messenger->addError(t('SVG Sprite file not found.'));
+        return null;
       }
       if(is_null($this->fileContent)){
         $this->loadFile();
       }
       return $this->fileContent;
     }
-    protected function loadFile(){
+    protected function loadFile(): void {
       $this->fileContent = file_get_contents($this->filePath);
     }
 
