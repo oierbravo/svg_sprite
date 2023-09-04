@@ -8,6 +8,6 @@
   width: 128px;
   margin: 10px;
 }
-.media-library-item.checked .sprite-wrapper{
-  background-color: var(--gin-bg-input);
+.media-library-item--grid.checked {
+  background-color: var(--gin-color-focus);
 }
