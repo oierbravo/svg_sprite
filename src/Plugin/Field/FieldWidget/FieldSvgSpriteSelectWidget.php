@@ -6,8 +6,8 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\svg_sprite\Ajax\RefreshPreview;
 use Drupal\svg_sprite\Services\Renderer;
+use Drupal\svg_sprite\SvgSpriteHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -25,7 +25,9 @@ class FieldSvgSpriteSelectWidget extends WidgetBase {
 
   protected $svg_sprite_renderer;
 
-
+  /**
+   *
+   */
   public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, Renderer $svg_sprite_renderer) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
     $this->svg_sprite_renderer = $svg_sprite_renderer;
@@ -44,6 +46,7 @@ class FieldSvgSpriteSelectWidget extends WidgetBase {
       $container->get('svg_sprite.renderer')
     );
   }
+
   /**
    * {@inheritdoc}
    */
@@ -52,11 +55,14 @@ class FieldSvgSpriteSelectWidget extends WidgetBase {
 
     $options = [];
     $sprites_ids = $this->svg_sprite_renderer->getIds();
-    foreach($sprites_ids as $id){
+    if (!$this->fieldDefinition->isRequired()) {
+      $options[SvgSpriteHelper::NONE_KEY] = $this->t('- None -');
+    }
+    foreach ($sprites_ids as $id) {
       $options[$id] = $id;
     }
 
-    $default_value = (isset($item_value['sprite'])) ? $item_value['sprite'] : array_pop($sprites_ids);
+    $default_value = (isset($item_value['sprite'])) ? $item_value['sprite'] : '';
 
     $svg_sprite_element = [];
 
@@ -69,19 +75,20 @@ class FieldSvgSpriteSelectWidget extends WidgetBase {
       '#default_value' => $default_value,
       '#attributes' => ['class' => ['form--inline', 'clearfix']],
       '#ajax' => [
-        'callback' => ['Drupal\svg_sprite\Ajax\RefreshPreview', 'render'], //alternative notation
-        'disable-refocus' => TRUE, // Or TRUE to prevent re-focusing on the triggering element.
+    // Alternative notation.
+        'callback' => ['Drupal\svg_sprite\Ajax\RefreshPreview', 'render'],
+    // Or TRUE to prevent re-focusing on the triggering element.
+        'disable-refocus' => TRUE,
         'event' => 'change',
         'progress' => [
           'type' => 'throbber',
           'message' => $this->t('Updating sprite...'),
         ],
-      ]
+      ],
     ];
-
-
 
     $element += $svg_sprite_element;
     return $element;
   }
+
 }

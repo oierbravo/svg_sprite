@@ -6,6 +6,14 @@ browser:
     - core/drupal
     - core/jquery
     - core/once
+ajax:
+  version: 1.x
+  js:
+    js/svg_sprite_browser.ajax.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
 browser_styles:
   version: 1.x
   css:

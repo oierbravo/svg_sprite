@@ -1,13 +1,13 @@
-.media-library-item__preview svg {
-  width:100%;
+.svg-library-views-form {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 8vw);
+  grid-gap: 15px;
 }
-.media-library-views-form {
- display: flex;
+.svg-library-item--grid {
+  text-align: center;
+  color: var(--gin-color-text);
 }
-.media-library-item {
-  width: 128px;
-  margin: 10px;
-}
-.media-library-item--grid.checked {
+.svg-library-item--grid.checked {
   background-color: var(--gin-bg-item-hover);
 }

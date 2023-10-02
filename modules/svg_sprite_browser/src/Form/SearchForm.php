@@ -74,7 +74,7 @@ class SearchForm extends FormBase {
     ];
     // Search filter box.
     $form['sprite_search'] = [
-      '#type' => 'textfield',
+      '#type' => 'search',
       '#title' => $this
         ->t('Search'),
       '#size' => 60,
@@ -102,6 +102,7 @@ class SearchForm extends FormBase {
 
     // Submit button.
     $form['actions'] = ['#type' => 'actions'];
+
     $form['actions']['send'] = [
       '#type' => 'submit',
       '#value' => $this->t('Save'),
@@ -115,15 +116,20 @@ class SearchForm extends FormBase {
         'event' => 'click',
       ],
     ];
+/*    $form['actions']['clear'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Clear'),
+      '#attributes' => [
+        'class' => [
+          'use-ajax','button--danger'
+        ],
+      ],
+      '#ajax' => [
+        'callback' => [$this, 'clearForm'],
+        'event' => 'click',
+      ],
+    ];*/
 
-
-
-    // Pass data to js file.
-   /* $form['#attached']['drupalSettings'] = [
-        'entity_tree_token_' . $field_edit_id => \Drupal::csrfToken()->get($bundles),
-        'tree_limit_' . $field_edit_id => empty($limit) ? -1 : $limit,
-    ];
-*/
     return $form;
   }
 

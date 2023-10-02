@@ -1,6 +1,6 @@
 
 (function($, Drupal) {
-  Drupal.behaviors.entityReferenceTree = {
+  Drupal.behaviors.svgSpriteBrowser = {
     attach: function(context, settings) {
       var wrapperElement = once('svgSpriteBrowserBehavior', '.js-svg-sprite-browser-wrapper', context);
       wrapperElement
@@ -16,12 +16,9 @@
 
         }
         refreshSelected();
-
         if (widgetElement.length) {
-          console.log(fieldEditName);
           $('.js-svg-sprite-browser-item').click(function(ev){
             let id = $(this).data('svg-sprite-id');
-            console.log('selected id click', id);
             $('#svg-sprite-browser-selected-sprite').val(id);
             refreshSelected();
           })
@@ -29,14 +26,24 @@
 
           // Search filter box.
           let to = false;
-          $("#entity-reference-tree-search").keyup(function() {
+          $("#svg-sprite-browser-search").change(function() {
             const searchInput = $(this);
             if (to) {
               clearTimeout(to);
             }
             to = setTimeout(function() {
-              const v = searchInput.val();
-              treeContainer.jstree(true).search(v);
+              const searchValue = searchInput.val();
+              $('.js-svg-sprite-browser-item').each(function(){
+                let element =  $(this);
+                let id = element.data('svg-sprite-id');
+
+                if(id.search(searchValue) === -1) {
+                  element.fadeOut(100);
+                } else {
+                  element.fadeIn(100);
+
+                }
+              });
             }, 250);
           });
         }
@@ -46,6 +53,7 @@
 })(jQuery, Drupal);
 
 
+/*
 (function($) {
   $.fn.svgSpriteBrowserDialogAjaxCallback = function(fieldEditID, selectedSprite) {
     if ($("#" + fieldEditID).length) {
@@ -54,3 +62,4 @@
     }
   };
 })(jQuery);
+*/

@@ -4,6 +4,7 @@ namespace Drupal\svg_sprite_browser\Controller;
 
 use Drupal\Core\Access\CsrfTokenGenerator;
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\OpenModalDialogCommand;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilder;
@@ -40,10 +41,21 @@ class SvgSpriteBrowser extends ControllerBase {
     $modal_form = $this->formBuilder->getForm('Drupal\svg_sprite_browser\Form\SearchForm', $field_edit_id,$selected_sprite);
 
     // Add an AJAX command to open a modal dialog with the form as the content.
-    $response->addCommand(new OpenModalDialogCommand($this->t('Sprite selector'), $modal_form, ['width' => '75%', 'heigth' => '75%']));
+    $response->addCommand(new OpenModalDialogCommand($this->t('Sprite selector'), $modal_form, ['width' => '75%', 'heigth' => '75%','classes'=> ['ui-dialog'=>'sprite-browser-modal']]));
 
     return $response;
   }
+
+  public function setField(Request $request, string $field_edit_id, $selected_sprite = '') {
+    $response = new AjaxResponse();
+
+
+    // Add an AJAX command to open a modal dialog with the form as the content.
+//    $response->addCommand(new OpenModalDialogCommand($this->t('Sprite selector'), $modal_form, ['width' => '75%', 'heigth' => '75%','classes'=> ['ui-dialog'=>'sprite-browser-modal']]));
+
+    return $response;
+  }
+
   public function getJson() {
     return [];
   }
