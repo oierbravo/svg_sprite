@@ -10,8 +10,7 @@
         // Avoid ajax callback from running following codes again.
         let refreshSelected = function (){
           let selectedId = $('#svg-sprite-browser-selected-sprite').val();
-          $(".js-svg-sprite-browser-item").removeClass('checked');
-          console.log(selectedId);
+          $(".js-svg-sprite-browser-item").removeClass("checked");
           $("[data-svg-sprite-id='" + selectedId +"']").addClass('checked');
 
         }
@@ -51,15 +50,3 @@
     }
   };
 })(jQuery, Drupal);
-
-
-/*
-(function($) {
-  $.fn.svgSpriteBrowserDialogAjaxCallback = function(fieldEditID, selectedSprite) {
-    if ($("#" + fieldEditID).length) {
-      // submitted selected id.
-      $("#" + fieldEditID).val(selectedSprite).trigger('change');
-    }
-  };
-})(jQuery);
-*/

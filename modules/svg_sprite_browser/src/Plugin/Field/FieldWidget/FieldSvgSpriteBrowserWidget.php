@@ -4,7 +4,6 @@ namespace Drupal\svg_sprite_browser\Plugin\Field\FieldWidget;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\InvokeCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -14,7 +13,6 @@ use Drupal\Core\Url;
 use Drupal\svg_sprite\Services\Renderer;
 use Drupal\svg_sprite\SvgSpriteHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  *
@@ -29,12 +27,19 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class FieldSvgSpriteBrowserWidget extends WidgetBase {
 
-  protected $svg_sprite_renderer;
+  /**
+   * Undocumented variable.
+   *
+   * @var [type]
+   */
+  protected $svgSpriteRenderer;
 
-
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, Renderer $svg_sprite_renderer) {
+  /**
+   *
+   */
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, Renderer $svgSpriteRenderer) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
-    $this->svg_sprite_renderer = $svg_sprite_renderer;
+    $this->svgSpriteRenderer = $svgSpriteRenderer;
   }
 
   /**
@@ -50,6 +55,7 @@ class FieldSvgSpriteBrowserWidget extends WidgetBase {
       $container->get('svg_sprite.renderer')
     );
   }
+
   /**
    * {@inheritdoc}
    */
@@ -65,16 +71,14 @@ class FieldSvgSpriteBrowserWidget extends WidgetBase {
 
     $parents = $element['#field_parents'];
 
-
     $id_prefix = '';
     if (!empty($parents)) {
-      //Empty check necessary because implode will return the
-      //separator when given an empty array.
+      // Empty check necessary because implode will return the
+      // separator when given an empty array.
       $id_prefix = str_replace('_', '-', implode('-', array_merge($parents))) . '-';
     }
 
     $edit_id = 'edit-' . $id_prefix . str_replace('_', '-', $items->getName()) . '-' . $delta . '-sprite';
-
 
     $sprite = Html::getUniqueId('sprite_widget');
     $backgroundEnabledClass = Html::getUniqueId('background');
@@ -87,26 +91,24 @@ class FieldSvgSpriteBrowserWidget extends WidgetBase {
       '#prefix' => '<div class="icon-field-inner-wrapper">',
       '#ajax' => [
         'callback' => ['Drupal\svg_sprite\Ajax\RefreshPreview', 'render'],
-        'disable-refocus' => TRUE, // Or TRUE to prevent re-focusing on the triggering element.
+    // Or TRUE to prevent re-focusing on the triggering element.
+        'disable-refocus' => TRUE,
         'event' => 'change',
         'progress' => [
           'type' => 'throbber',
           'message' => $this->t('Updating sprite...'),
         ],
-      ]
+      ],
 
     ];
-    $svg_sprite_element['sprite_preview'] = $this->svg_sprite_renderer->getRenderArray($default_value);
+    $svg_sprite_element['sprite_preview'] = $this->svgSpriteRenderer->getRenderArray($default_value, $edit_id);
 
-
-
-
-    //$svg_sprite_element['sprite_preview']['#suffix'] = "</div>";
+    // $svg_sprite_element['sprite_preview']['#suffix'] = "</div>";
     $svg_sprite_element['actions'] = [];
     $svg_sprite_element['actions']['dialog_link'] = [
       '#type' => 'link',
       '#title' => $this->t('Browse'),
-    //  '#suffix' => "</div>",
+    // '#suffix' => "</div>",
       '#url' => Url::fromRoute(
         'svg_sprite_browser.widget_form',
         [
@@ -123,36 +125,33 @@ class FieldSvgSpriteBrowserWidget extends WidgetBase {
 
     $svg_sprite_element['actions']['clear'] = [
       '#type' => "button",
-      '#value' =>  $this->t('Clear'),
-      '#edit_id' => $edit_id,
+      '#value' => $this->t('Clear'),
       '#ajax' => [
-       'callback' => [$this,'clear'],
+        'callback' => [$this, 'clear'],
         'event' => 'click',
-    /*    '#url' => Url::fromRoute(
-          'svg_sprite_browser.set_field',
-          [
-            'field_edit_id' => $edit_id,
-            'selected_sprite' => "none",
-          ]),*/
       ],
+      '#name' => str_replace('sprite', 'actions-clear', $edit_id),
       '#states' => [
-      'invisible' => [
-        ['#' . $edit_id => ['value' => SvgSpriteHelper::NONE_KEY ]],
+        'invisible' => [
+          ["input[data-drupal-selector=" . $edit_id . "]" => ['value' => SvgSpriteHelper::NONE_KEY]],
+        ],
       ],
-    ]
     ];
     $element += $svg_sprite_element;
     return $element;
   }
-  public static function clear(array &$form, FormStateInterface $form_state){
-    $response = new AjaxResponse();
 
+  /**
+   *
+   */
+  public static function clear(array &$form, FormStateInterface $form_state) {
     $triggeringElement = $form_state->getTriggeringElement();
-    $field_id = $triggeringElement['#edit_id'];
-//    $response->addCommand(new ReplaceCommand("#" . $sprite_preview_element . ' svg' , $sprite));
-    $response->addCommand(new InvokeCommand(NULL, 'svgSpriteBrowserDialogAjaxCallback', [$field_id, SvgSpriteHelper::NONE_KEY]));
-
-
+    $sprite = '';
+    $selector = str_replace('actions-clear', 'sprite', $triggeringElement['#attributes']['data-drupal-selector']);
+    $sprite = \Drupal::service('svg_sprite.renderer')->getRenderArray('', $selector);
+    $response = new AjaxResponse();
+    $response->addCommand(new ReplaceCommand("svg." . $selector, $sprite));
     return $response;
   }
+
 }

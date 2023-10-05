@@ -65,9 +65,16 @@ class FieldSvgSpriteSelectWidget extends WidgetBase {
     $default_value = (isset($item_value['sprite'])) ? $item_value['sprite'] : '';
 
     $svg_sprite_element = [];
+    $id_prefix = '';
+    if (!empty($parents)) {
+      // Empty check necessary because implode will return the
+      // separator when given an empty array.
+      $id_prefix = str_replace('_', '-', implode('-', array_merge($parents))) . '-';
+    }
 
+    $edit_id = 'edit-' . $id_prefix . str_replace('_', '-', $items->getName()) . '-' . $delta . '-sprite';
     $svg_sprite_element['#attached']['library'][] = 'svg_sprite/icon_styles';
-    $svg_sprite_element['sprite_preview'] = $this->svg_sprite_renderer->getRenderArray($default_value);
+    $svg_sprite_element['sprite_preview'] = $this->svg_sprite_renderer->getRenderArray($default_value, $edit_id);
     $svg_sprite_element['sprite'] = [
       '#title' => 'Sprite',
       '#type' => 'select',

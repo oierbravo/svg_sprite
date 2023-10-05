@@ -1,8 +1,10 @@
 (function($) {
     $.fn.svgSpriteBrowserDialogAjaxCallback = function(fieldEditID, selectedSprite) {
-      if ($("#" + fieldEditID).length) {
+      if ($(`input[data-drupal-selector="${fieldEditID}"]`).length) {
         // submitted selected id.
-        $("#" + fieldEditID).val(selectedSprite).trigger('change');
+        $(`input[data-drupal-selector="${fieldEditID}"]`)
+          .val(selectedSprite)
+          .trigger("change");
       }
     };
   })(jQuery);
